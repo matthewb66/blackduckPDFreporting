@@ -6,10 +6,10 @@ Json-to-pdf (https://github.com/yogthos/json-to-pdf) is used to generate PDF fil
 Also uses jq to format JSON data from API calls (must be preinstalled).
 
 List of scripts included in this package:
-- *project_bom_report.sh*: Produces an overall report showing alphabetical list of components, including bar charts of license, vulnerability and operational risk
-- *project_license_report.sh*: Produces a license report showing list of components sorted by license risk, including a bar chart of license risk
-- *project_security_report.sh*: Produces a security report showing list of components sorted by vulnerability counts, including bar charts of security risk by component and overall
-- *project_custom_report.sh*: Generate a general report of components using a custom template which can include API fields selected in the template.
+- *project_bom_report.sh*: Produces an overall report showing alphabetical list of components, including bar charts of license, vulnerability and operational risk (example report [here]( https://github.com/matthewb66/blackduckPDFreporting/blob/master/examples/report_overall_duck-hub_3.0.pdf))
+- *project_license_report.sh*: Produces a license report showing list of components sorted by license risk, including a bar chart of license risk (example report [here]( https://github.com/matthewb66/blackduckPDFreporting/blob/master/examples/report_licensing_duck-hub_3.0.pdf))
+- *project_security_report.sh*: Produces a security report showing list of components sorted by vulnerability counts, including bar charts of security risk by component and overall (example report [here]( https://github.com/matthewb66/blackduckPDFreporting/blob/master/examples/report_security_duck-hub_3.0.pdf))
+- *project_custom_report.sh*: Generate a general report of components using a custom template which can include API fields selected in the template (example report [here]( https://github.com/matthewb66/blackduckPDFreporting/blob/master/examples/report_custom_duck-hub_3.0.pdf))
 
 # SUPPORTED PLATFORMS
 
