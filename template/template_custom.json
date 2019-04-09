@@ -1,0 +1,59 @@
+[
+  {"right-margin":30,
+   "subject":"Some subject",
+   "creator":"Synopsys Script",
+   "doc-header":["Black Duck - Overall Project Report"],
+   "bottom-margin":25,
+   "author":"Synopsys",
+   "header":"Black Duck - Overall Project Report - Project: __PROJECTNAME__",
+   "left-margin":10,
+   "title":"Overall Project Report",
+   "size":"a4",
+   "footer":"page",
+   "font":{"size":9},
+   "top-margin":33},
+
+   ["heading", "Black Duck - Custom Project Report"],
+   ["heading", {"style": {"size":16, "color":[100, 40, 150]}}, "Project: __PROJECTNAME__ - Version: __VERSIONNAME__"],
+
+   ["spacer", 3],
+   
+	["chart",
+	 {"type":"bar-chart",
+ 		"title":"Security Risk",
+ 		"horizontal":true,
+ 		"width":450,
+ 		"height":600,
+	  	"background":[220,220,255],
+  		"x-label":"Security Risk Profile",
+  		"y-label":"Components"}, [__SEC_HIGH__, "High"], [__SEC_MEDIUM__, "Medium"], [__SEC_LOW__, "Low"], [__SEC_NONE__, "None"]],
+
+   ["spacer", 5],
+	["chart",
+	 {"type":"bar-chart",
+ 		"title":"License Risk",
+ 		"horizontal":true,
+ 		"width":450,
+ 		"height":600,
+	  	"background":[220,220,255],
+  		"x-label":"License Risk Profile",
+  		"y-label":"Components"}, [__LIC_HIGH__, "High"], [__LIC_MEDIUM__, "Medium"], [__LIC_LOW__, "Low"], [__LIC_NONE__, "None"]],
+
+   ["spacer", 5],
+	["chart",
+	 {"type":"bar-chart",
+ 		"title":"Operational Risk",
+ 		"horizontal":true,
+ 		"width":450,
+ 		"height":600,
+	  	"background":[220,220,255],
+  		"x-label":"Operational Risk Profile",
+  		"y-label":"Components"}, [__OP_HIGH__, "High"], [__OP_MEDIUM__, "Medium"], [__OP_LOW__, "Low"], [__OP_NONE__, "None"]],
+
+    ["spacer", 12],
+     			
+   ["table",
+   	{"header":[{"color": [100, 40, 150]}, "Component", "Version", "Usage", "Reviewed", "Policy Violation", "Security Risk"],
+   	 "widths":[4, 2, 2, 2, 2, 1]}
+__TABLE_ROWS__:[.items[].componentName] [.items[].componentVersionName] [.items[].usages[0]] [.items[].reviewStatus] [.items[].policyStatus] __SEC_TEXT__
+__REPLACEMENTS__:NOT_REVIEWED;No|REVIEWED;Yes|NOT_IN_VIOLATION;Yes|IN_VIOLATION;Yes|DYNAMICALLY_LINKED;Dynamically Linked|STATICALLY_LINKED;Statically Linked|DEV_TOOL_EXCLUDED;Dev Tool/Excluded

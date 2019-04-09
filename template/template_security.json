@@ -1,0 +1,48 @@
+[
+  {"right-margin":30,
+   "subject":"Some subject",
+   "creator":"Synopsys Script",
+   "doc-header":["Black Duck - Security Risk Report"],
+   "bottom-margin":25,
+   "author":"Synopsys",
+   "header":"Black Duck - Security Risk Report - Project: __PROJECTNAME__",
+   "left-margin":10,
+   "title":"Security Risk Report",
+   "size":"a4",
+   "footer":"page",
+   "font":{"size":10},
+   "top-margin":33},
+
+   ["heading", "Black Duck - Security Risk Report"],
+   ["heading", {"style": {"size":16, "color":[100, 40, 150]}}, "Project: __PROJECTNAME__ - Version: __VERSIONNAME__"],
+
+   ["spacer", 4],
+   
+	["chart",
+	 {"type":"bar-chart",
+ 		"title":"Security Risk by Component",
+ 		"horizontal":true,
+ 		"width":450,
+ 		"height":600,
+	  	"background":[220,220,255],
+  		"x-label":"Risk Profile",
+  		"y-label":"Components"}, [__COMP_HIGH__, "High"], [__COMP_MEDIUM__, "Medium"], [__COMP_LOW__, "Low"], [__COMP_NONE__, "None"]],
+
+   ["spacer", 9],
+
+	["chart",
+	 {"type":"bar-chart",
+ 		"title":"Security Risk Total Vulnerabilities",
+ 		"horizontal":true,
+ 		"width":450,
+ 		"height":600,
+	  	"background":[220,220,255],
+  		"x-label":"Risk Profile",
+  		"y-label":"Vulnerabilities"}, [__VULNS_HIGH__, "High"], [__VULNS_MEDIUM__, "Medium"], [__VULNS_LOW__, "Low"]],
+
+   ["spacer"],
+		
+   ["table",
+   	{"header":[{"color": [100, 40, 150]}, "Component", "Version", "High", "Medium", "Low"],
+   	 "widths":[4, 2, 1, 1, 1]}
+   	 
