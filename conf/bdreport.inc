@@ -1,5 +1,4 @@
-HUBURL="https://YOURHUB.blackducksoftware.com"
-APICODE=""
+source "$BDREPORTDIR/conf/bdreport.env"
 TEMPFILE=/tmp/bd1$$
 JSONTOPDFJAR=target/json-to-pdf-example-1.0-jar-with-dependencies.jar
 
@@ -22,7 +21,7 @@ usage() {
 }
 
 get_auth_token() {
-	curl -X POST --header "Authorization: token $APICODE" --header "Accept:application/json" $HUBURL/api/tokens/authenticate > $TEMPFILE 2>/dev/null
+	curl $CURLOPTS -X POST --header "Authorization: token $APICODE" --header "Accept:application/json" $HUBURL/api/tokens/authenticate > $TEMPFILE 2>/dev/null
 	if [ $? -ne 0 ] || [ ! -r $TEMPFILE ]
 	then
 		echo API request failure >&2
@@ -35,7 +34,7 @@ get_auth_token() {
 
 api_call() {
 	rm -f $TEMPFILE
-	curl -X GET --header "Authorization: Bearer $TOKEN" "$1" 2>/dev/null >$TEMPFILE
+	curl $CURLOPTS -X GET --header "Authorization: Bearer $TOKEN" "$1" 2>/dev/null >$TEMPFILE
 	if [ $? -ne 0 ] || [ ! -r $TEMPFILE ]
 	then
 		( echo API Error:
@@ -60,7 +59,7 @@ check_prereqs() {
 		return -1
 	fi
 	TEST="`java -version 2>&1 | sed -n '1p'| cut -f1 -d' '`"
-	if [ -z "$TEST" -o "$TEST" != "java" ]
+	if [ -z "$TEST" -o \( "$TEST" != "java" -a "$TEST" != "openjdk" \) ]
 	then
 		echo "java required - please install before continuing" >&2
 		return -1

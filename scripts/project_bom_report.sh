@@ -15,11 +15,10 @@
 #   version name:		Version name (required)
 #	pdffile:			PDF file name (optional - otherwise overall_report.pdf will be used)
 #
-BDREPORTDIR="/INSTALLDIR"
-
+BDREPORTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/.."
 TEMPLATE="$BDREPORTDIR/template/template_bom.json"
 LOGOFILE="${BDREPORTDIR}/template/bdlogo.jpg"
-source "$BDREPORTDIR/scripts/bdreport.env"
+source "$BDREPORTDIR/conf/bdreport.inc"
 
 if [ $# -lt 1 -a $# -gt 3 ]
 then
