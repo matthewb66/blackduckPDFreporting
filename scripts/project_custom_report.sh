@@ -22,7 +22,7 @@ LOGOFILE="${BDREPORTDIR}/template/bdlogo.jpg"
 source "$BDREPORTDIR/conf/bdreport.inc"
 
 usage_custom() {
-	echo "Usage: $1 Project_name Template_file Version_name [PDF_file]"
+	echo "Usage: $1 Template_file Project_name Version_name [PDF_file]"
 	echo "	Use '$1 Template_file Project_search_string' to see a list of all matching projects"
 	echo "	Or '$1 Template_file Project_name Version_search_string' to see a list of all versions for the project"
 	end 0
@@ -114,10 +114,19 @@ done
 #Process replacement text
 #
 #__REPLACEMENTS__:REVIEWED,Yes|NOT_REVIEWED/No|IN_VIOLATION/Yes|DYNAMICALLY_LINKED/Dynamically Linked|STATICALLY_LINKED/Statically Linked|DEV_TOOL_EXCLUDED/Dev Tool/Excluded
-REPLACEMENTS="sed -e 's;`grep __REPLACEMENTS__ \"$TEMPLATE\" | cut -f2 -d':' | sed -e \"s:\|:;g' \-e \'s;:g\"`;g'"
+#REPLACEMENTS="sed -e 's;`grep __REPLACEMENTS__ \"$TEMPLATE\" | cut -f2 -d':' | sed -e \"s:\|:;g' \-e \'s;:g\"`;g'"
+SEDTEXT="`grep __REPLACEMENTS__ \"$TEMPLATE\" | cut -f2 -d':' | sed -e \"s:|:;g' \-e \'s;:g\"`"
+REPLACEMENTS="sed -e 's;$SEDTEXT;g'"
+
 if [ -z "$REPLACEMENTS" ]
 then
 	error "Unable to extract replacement text from template file"
+fi
+#Check that REPLACEMENTS sed command is valid
+echo test | eval $REPLACEMENTS 1>/dev/null 2>&1
+if [ $? -ne 0 ]
+then
+	error "Replacement text error - cannot extract from template file"
 fi
 
 COMPNAMES="`jq -r '[.items[].componentName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/\"//g'`"

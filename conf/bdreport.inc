@@ -52,16 +52,30 @@ api_call() {
 }
 
 check_prereqs() {
-	TEST="`echo '{\"test\":100}' | jq .test`"
-	if [ -z "$TEST" -o "$TEST" != '100' ]
+	#TEST="`echo '{\"test\":100}' | jq .test`"
+	#if [ -z "$TEST" -o "$TEST" != '100' ]
+	hash jq 2>/dev/null
+	if [ $? -ne 0 ]
 	then
-		echo "jq required - please install before continuing" >&2
+		echo "jq package required - please install before continuing" >&2
 		return -1
 	fi
-	TEST="`java -version 2>&1 | sed -n '1p'| cut -f1 -d' '`"
-	if [ -z "$TEST" -o \( "$TEST" != "java" -a "$TEST" != "openjdk" \) ]
+	hash curl 2>/dev/null
+	if [ $? -ne 0 ]
 	then
-		echo "java required - please install before continuing" >&2
+		echo "curl package required - please install before continuing" >&2
+		return -1
+	fi
+	hash sed 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+		echo "sed package required - please install before continuing" >&2
+		return -1
+	fi
+	hash sort 2>/dev/null
+	if [ $? -ne 0 ]
+	then
+		echo "sort package required - please install before continuing" >&2
 		return -1
 	fi
 	if [ ! -r "$BDREPORTDIR/$JSONTOPDFJAR" ]
