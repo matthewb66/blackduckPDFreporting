@@ -77,7 +77,7 @@ fi
 echo "$RET components found"
 
 COMPNAMES="`jq -r '[.items[].componentName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/\"//g'`"
-COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
+COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/		/	No_version	/g' -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 USAGES=(`jq -r '[.items[].usages[0]]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 REVIEWED=(`jq -r '[.items[].reviewStatus]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 POLICIES=(`jq -r '[.items[].policyStatus]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
@@ -123,8 +123,9 @@ COMPNUM=0
 
 for COMPNAME in $COMPNAMES
 do
+#    echo "COMPNAME=$COMPNAME" #DEBUG
 	COMPVERNAME="${COMPVERNAMES[$COMPNUM]}"
-
+#    echo "COMPVERNAME=$COMPVERNAME" #DEBUG
 	if [[ -z "$COMPVERNAME" ]]
 	then
 		continue
@@ -161,7 +162,7 @@ do
 	fi
 	
 	# Work out the overall component security risk counts
-	SEC_TEXT=
+	SEC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( SEC_HIGH[$COMPNUM] > 0 ))
 	then
 		((SEC_HIGH_COUNT++))
@@ -184,8 +185,8 @@ do
 		SEC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	fi
 	
-	# Work out the overall component license risk counts	
-	LIC_TEXT=
+	# Work out the overall component license risk counts
+	LIC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( LIC_HIGH[$COMPNUM] > 0 ))
 	then
 		((LIC_HIGH_COUNT++))
@@ -209,7 +210,7 @@ do
 	fi
 
 	# Work out the overall component op risk counts	
-	OP_TEXT=
+	OP_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( OP_HIGH[$COMPNUM] > 0 ))
 	then
 		((OP_HIGH_COUNT++))
@@ -230,7 +231,7 @@ do
 	then
 		((OP_NONE_COUNT++))
 		OP_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
-	fi	
+	fi
 	
 	if [ "${REVIEWED[$COMPNUM]}" == "REVIEWED" ]
 	then
@@ -263,6 +264,8 @@ do
 	((COMPNUM++))
 done
 
+cp ${TEMPFILE}_table table.csv
+
 ( cat "$TEMPLATE" | \
 sed -e "s/__PROJECTNAME__/$PROJECT/g" \
 -e "s/__VERSIONNAME__/$VERSION/g" \
@@ -284,6 +287,8 @@ sed -e "s/__PROJECTNAME__/$PROJECT/g" \
 cat ${TEMPFILE}_table
 echo ']]'
 ) > ${TEMPFILE}_json
+
+cp ${TEMPFILE}_json table.json
 
 JAVACMD="java -jar \"$BDREPORTDIR/$JSONTOPDFJAR\" \"$OUTPUTPDF\""
 if [ -z "$LOGOFILE" ]

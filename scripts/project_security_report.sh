@@ -77,7 +77,7 @@ fi
 echo "$RET components found"
 
 COMPNAMES="`jq -r '[.items[].componentName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/\"//g'`"
-COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
+COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/		/	No_version	/g' -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 
 ALL_UNKNOWN=(`jq -r '[.items[].securityRiskProfile.counts[0].count]|@tsv' $TEMPFILE`)
 ALL_NONE=(`jq -r '[.items[].securityRiskProfile.counts[1].count]|@tsv' $TEMPFILE`)

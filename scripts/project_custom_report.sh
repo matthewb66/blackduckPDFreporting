@@ -130,7 +130,7 @@ then
 fi
 
 COMPNAMES="`jq -r '[.items[].componentName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/\"//g'`"
-COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
+COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/		/	No_version	/g' -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 
 SEC_UNKNOWN=(`jq -r '[.items[].securityRiskProfile.counts[0].count]|@tsv' $TEMPFILE`)
 SEC_NONE=(`jq -r '[.items[].securityRiskProfile.counts[1].count]|@tsv' $TEMPFILE`)
@@ -202,7 +202,7 @@ do
 	fi
 	
 	# Work out the overall component security risk counts
-	SEC_TEXT=
+	SEC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( SEC_HIGH[$COMPNUM] > 0 ))
 	then
 		((SEC_HIGH_COUNT++))
@@ -226,7 +226,7 @@ do
 	fi
 	
 	# Work out the overall component license risk counts	
-	LIC_TEXT=
+	LIC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( LIC_HIGH[$COMPNUM] > 0 ))
 	then
 		((LIC_HIGH_COUNT++))
@@ -250,7 +250,7 @@ do
 	fi
 
 	# Work out the overall component op risk counts	
-	OP_TEXT=
+	OP_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( OP_HIGH[$COMPNUM] > 0 ))
 	then
 		((OP_HIGH_COUNT++))

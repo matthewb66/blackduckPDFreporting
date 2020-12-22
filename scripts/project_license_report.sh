@@ -77,7 +77,7 @@ fi
 echo "$RET components found"
 
 COMPNAMES="`jq -r '[.items[].componentName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/\"//g'`"
-COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
+COMPVERNAMES=(`jq -r '[.items[].componentVersionName]|@tsv' $TEMPFILE | sed -e 's/		/	No_version	/g' -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 LIC_NAMES=(`jq -r '[.items[].licenses[0].licenseDisplay]|@tsv' $TEMPFILE | sed -e 's/ /_/g' -e 's/,//g' -e 's/"//g'`)
 
 ALL_UNKNOWN=(`jq -r '[.items[].licenseRiskProfile.counts[0].count]|@tsv' $TEMPFILE`)
@@ -119,7 +119,7 @@ do
 		continue
 	fi
 		
-	LIC_TEXT=
+	LIC_TEXT='["cell",["phrase",{"color":[10, 200, 10]},"None"]]'
 	if (( ALL_HIGH[$COMPNUM] > 0 ))
 	then
 		LIC_TEXT='["cell",["phrase",{"color":[200, 0, 0]},"High"]]'
